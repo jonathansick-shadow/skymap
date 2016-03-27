@@ -10,13 +10,14 @@ from lsst.skymap.ringsSkyMap import RingsSkyMap
 config = RingsSkyMap.ConfigClass()
 config.numRings = 3
 
+
 class RingsTestCase(SkyMapTestCase):
-    _NumTracts = 26 # Number of tracts to expect
-    _NeighborAngularSeparation = None # Expected tract separation
-    _SkyMapClass = RingsSkyMap # Class of SkyMap to test
-    _SkyMapConfig = config # Configuration to use
-    _SkyMapName = "rings" # Name of SkyMap class to test
-    _numNeighbors = None # Number of neighbours
+    _NumTracts = 26  # Number of tracts to expect
+    _NeighborAngularSeparation = None  # Expected tract separation
+    _SkyMapClass = RingsSkyMap  # Class of SkyMap to test
+    _SkyMapConfig = config  # Configuration to use
+    _SkyMapName = "rings"  # Name of SkyMap class to test
+    _numNeighbors = None  # Number of neighbours
 
     def testTractSeparation(self):
         self.skipTest("A particular tract separation is not important for RingsSkyMap")

@@ -25,7 +25,7 @@
 import math
 import numpy
 
-from mpl_toolkits.mplot3d import Axes3D # used by fig.gca
+from mpl_toolkits.mplot3d import Axes3D  # used by fig.gca
 import matplotlib.pyplot as plt
 
 import lsst.afw.geom as afwGeom
@@ -39,16 +39,16 @@ ax = fig.gca(projection='3d')
 for tractInfo in skyMap:
     # display inner region
     vertexList = list(tractInfo.getVertexList())
-    vertexList.append(vertexList[0]) # to close region
+    vertexList.append(vertexList[0])  # to close region
     innerPoints = [tuple(coord.getVector()) for coord in vertexList]
     inX, inY, inZ = zip(*innerPoints)
     lineList = ax.plot(inX, inY, inZ, label="Inner tractInfo %s" % (tractInfo.getId(),))
     color = lineList[0].get_color()
-    
+
     # display center
     centerPoint = numpy.mean(innerPoints[0:-1], axis=0)
     ax.plot([centerPoint[0]], [centerPoint[1]], [centerPoint[2]], ".", color=color)
-    
+
     # display outer edge; scale to be approximately in the same plane as the inner region
     wcs = tractInfo.getWcs()
     bbox = tractInfo.getBBox()

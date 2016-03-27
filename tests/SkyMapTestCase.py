@@ -16,7 +16,7 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the LSST License Statement and
 # the GNU General Public License along with this program.  If not,
 # see <http://www.lsstcorp.org/LegalNotices/>.
@@ -35,6 +35,7 @@ import lsst.utils.tests as utilsTests
 import lsst.afw.coord as afwCoord
 import lsst.afw.geom as afwGeom
 from lsst.skymap import skyMapRegistry
+
 
 class SkyMapTestCase(unittest.TestCase):
     """An abstract base class for testing a SkyMap.
@@ -70,7 +71,7 @@ class SkyMapTestCase(unittest.TestCase):
     def testBasicAttributes(self):
         """Confirm that constructor attributes are available
         """
-        for tractOverlap in (0.0, 0.01, 0.1): # degrees
+        for tractOverlap in (0.0, 0.01, 0.1):  # degrees
             config = self.getConfig()
             config.tractOverlap = tractOverlap
             skyMap = self.getSkyMap(config)
@@ -85,7 +86,7 @@ class SkyMapTestCase(unittest.TestCase):
             for tractInfo in skyMap:
                 self.assertEqual(tractInfo.getPatchBorder(), patchBorder)
             self.assertEqual(len(skyMap), self._NumTracts)
- 
+
         for xInnerDim in (1005, 5062):
             for yInnerDim in (2032, 5431):
                 config = self.getConfig()
@@ -172,7 +173,7 @@ class SkyMapTestCase(unittest.TestCase):
         skyMap = self.getSkyMap()
         for tractId, tractInfo in enumerate(skyMap):
             self.assertEqual(tractInfo.getId(), tractId)
-        
+
             ctrCoord = tractInfo.getCtrCoord()
             distList = []
             for tractInfo1 in skyMap:
@@ -182,7 +183,7 @@ class SkyMapTestCase(unittest.TestCase):
             self.assertEquals(distList[0], 0.0)
             for dist in distList[1:self._numNeighbors]:
                 self.assertAlmostEqual(dist, self._NeighborAngularSeparation)
-    
+
     def testFindPatchList(self):
         """Test findTract.findPatchList
         """
@@ -208,7 +209,7 @@ class SkyMapTestCase(unittest.TestCase):
                 patchInfoList = tractInfo.findPatchList(coordList)
                 self.assertEqual(len(patchInfoList), 1)
                 self.assertEqual(patchInfoList[0].getIndex(), patchIndex)
-                
+
                 # grow to include neighbors and test again
                 bbox.grow(2)
                 predFoundIndexSet = set()
@@ -227,10 +228,10 @@ class SkyMapTestCase(unittest.TestCase):
                 self.assertEqual(len(patchInfoList), len(predFoundIndexSet))
                 foundIndexSet = set(patchInfo.getIndex() for patchInfo in patchInfoList)
                 self.assertEqual(foundIndexSet, predFoundIndexSet)
-    
+
     def testFindTractPatchList(self):
         """Test findTractPatchList
-        
+
         Note: this test uses single points for speed and to avoid really large regions.
         Note that findPatchList is being tested elsewhere.
         """
@@ -258,10 +259,10 @@ class SkyMapTestCase(unittest.TestCase):
                     coordList = [tractInfo.getVertexList()[2]],
                     knownTractId = tractId,
                 )
-    
+
     def assertTractPatchListOk(self, skyMap, coordList, knownTractId):
         """Assert that findTractPatchList produces the correct results
-        
+
         @param[in] skyMap: sky map to test
         @param[in] coordList: coordList of region to search for
         @param[in] knownTractId: this tractId must appear in the found list
@@ -288,13 +289,12 @@ class SkyMapTestCase(unittest.TestCase):
             self.assertEqual(patchList, tract.findPatchList([coord]))
 
 
-
 ##############################################################################################################
 
 def getCornerCoords(wcs, bbox):
     """Return the coords of the four corners of a bounding box
     """
-    bbox = afwGeom.Box2D(bbox) # mak
+    bbox = afwGeom.Box2D(bbox)  # mak
     cornerPosList = (
         bbox.getMin(),
         afwGeom.Point2D(bbox.getMaxX(), bbox.getMinY()),
@@ -302,4 +302,4 @@ def getCornerCoords(wcs, bbox):
         afwGeom.Point2D(bbox.getMinX(), bbox.getMaxY()),
     )
     return [wcs.pixelToSky(cp).toIcrs() for cp in cornerPosList]
-    
+
